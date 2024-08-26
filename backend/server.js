@@ -7,6 +7,8 @@ import roomsocket from './roomsocket.js';
 import PublicChat from './chat/PublicChat.js';
 import { Socket } from 'dgram';
 import HistotyPublicChat from './chat/HistotyPublicChat.js';
+import privateChat from './chat/privateChat.js';
+import groupChat from './chat/GroupChat.js';
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -30,6 +32,12 @@ const publicNamespace = io.of('/public');
 PublicChat(publicNamespace)
 const historypublicNamespace = io.of('/historypublic');
 HistotyPublicChat(historypublicNamespace)
+//private message
+const privateNamespace = io.of('/private');
+privateChat(privateNamespace);
+//group message
+const groupNamespace = io.of('/group');
+groupChat(groupNamespace);
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
